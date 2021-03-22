@@ -19,14 +19,15 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val questions = listOf<MultipleChoice>(MultipleChoice(1,1,"First question",  listOf<String>("option 1 darco", "option 2", "option 3", "option 4")),
+        val questions = listOf<Any>(MultipleChoice(1,1,"First question",  listOf<String>("option 1 darco", "option 2", "option 3", "option 4")),
+            InputQuestion(5,2, "Introduceti raspunsul"),
             MultipleChoice(2,1,"Second question",  listOf<String>("option 21", "option 22", "option 23", "option 24")),
             MultipleChoice(3,1,"Third question",  listOf<String>("option 31", "option 32", "option 33", "option 34")),
             MultipleChoice(4,1,"Fourth question",  listOf<String>("option 41", "option 42", "option 43", "option 44"))
         )
         var position = 1
 
-        val question = questions[0]
+        val question:MultipleChoice = questions[0] as MultipleChoice
         //Add the object to the fragment
         val currentQuestion = Bundle()
         currentQuestion.putParcelable("questionBundle", question)
@@ -39,15 +40,17 @@ class MainActivity : AppCompatActivity() {
         //when you click on next, the fragment will be replaces with a new one
         nextButton.setOnClickListener {
             if(position < questions.size) {
-               if (questions[position].questionType == 1) {
-                   setQuestionType1(questions[position])
-                   position += 1
-               }
+                if (questions[position] is MultipleChoice) {
+                    setQuestionType1(questions[position] as MultipleChoice)
+                    position += 1
+                }
                 else{
-                   if(questions[position].questionType == 2){
-                    //   setQuestionType2(questions[position])
-                   }
-               }
+                    if(questions[position] is InputQuestion){
+                        setQuestionType2(questions[position] as InputQuestion)
+                        position += 1
+
+                    }
+                }
             }
             else{
                 finishedQuestions()
@@ -70,13 +73,9 @@ class MainActivity : AppCompatActivity() {
     private fun setQuestionType2(question: InputQuestion){
         val fragment = InputFragment()
         val currentQuestion = Bundle()
-
         currentQuestion.putParcelable("questionBundle", question)
-
         fragment.arguments = currentQuestion
-
         supportFragmentManager.beginTransaction().replace(R.id.rootLayout, fragment).commit()
-
     }
 
     private fun finishedQuestions(){

@@ -26,9 +26,10 @@ class InputFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_input, container, false)
         inputAnswer = view.findViewById(R.id.editText)
-
-        if (myBundle != null){
+        val tvQuestionInput = view.findViewById<TextView>(R.id.tvQuestionInput)
+        if (myBundle != null) {
             tvQuestionInput.text = myBundle.question
+            Log.d("Input answer is ", myBundle.question)
         }
 
         return view
