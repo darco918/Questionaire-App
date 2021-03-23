@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1010988230074",
+    "firebase_url": "https://questionaire-app-79cf3-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "questionaire-app-79cf3",
+    "storage_bucket": "questionaire-app-79cf3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010988230074:android:06c8fa39b80af939a3a983",
+        "android_client_info": {
+          "package_name": "com.example.questionaireapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010988230074-4l0sdeksnu52dsdkpj2v7dkr2ot1a2fb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.questionaireapp",
+            "certificate_hash": "a9c2105826b7028f97282ded18d1a687cfa5baa3"
+          }
+        },
+        {
+          "client_id": "1010988230074-dkssig4s09okieh46bdbhf8tn6svhoks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR9TAmz-_wEDl3PYqLYOEtxdAs0dKxDTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010988230074-dkssig4s09okieh46bdbhf8tn6svhoks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

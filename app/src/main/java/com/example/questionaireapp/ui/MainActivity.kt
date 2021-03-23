@@ -3,22 +3,30 @@ package com.example.questionaireapp.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.questionaireapp.R
 import com.example.questionaireapp.models.InputQuestion
 import com.example.questionaireapp.models.MultipleChoice
 import com.example.questionaireapp.ui.questionfragments.InputFragment
 import com.example.questionaireapp.ui.questionfragments.MultipleChoiceFragment
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.StringBuilder
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var database: DatabaseReference
+// ...
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //this is the question we are inflating
-
-
-
         val questions = listOf<Any>(MultipleChoice(1,1,"First question",  listOf<String>("option 1 darco", "option 2", "option 3", "option 4")),
             InputQuestion(5,2, "Introduceti raspunsul"),
             MultipleChoice(2,1,"Second question",  listOf<String>("option 21", "option 22", "option 23", "option 24")),
@@ -56,6 +64,36 @@ class MainActivity : AppCompatActivity() {
                 finishedQuestions()
             }
         }
+
+
+
+
+
+        // write to firebase snippet
+        database = Firebase.database.reference
+        writeNewQuestion(questions[0] as MultipleChoice)
+        for (el in questions)  writeNewQuestion(el)
+    }
+
+    //optional function that will write questions to db
+    private fun writeNewQuestion(question: Any){
+        //create a random string id
+        val random= getRandomString(10)
+        Log.d("random generated is ", random.toString())
+        //push value to firebase
+        database.child("questions").child(random).setValue(question)
+    }
+
+    private fun getRandomString(length: Int):String{
+        val sb = StringBuilder(length)
+        val alphabet ="asdfgfhjklqwertyuiopzxcvbnmASDFGHJKLZXCVBNMQWERTYUIOP1234567890"
+        val rand = Random()
+
+        for(i in 0 until sb.capacity()){
+            val index = rand.nextInt(alphabet.length)
+            sb.append(alphabet[index])
+        }
+return sb.toString()
     }
 
     private fun setQuestionType1(question: MultipleChoice){
