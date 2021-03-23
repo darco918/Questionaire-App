@@ -29,7 +29,7 @@ class InputFragment : Fragment() {
         val tvQuestionInput = view.findViewById<TextView>(R.id.tvQuestionInput)
         if (myBundle != null) {
             tvQuestionInput.text = myBundle.question
-            Log.d("Input answer is ", myBundle.question)
+            myBundle.question?.let { Log.d("Input answer is ", it) }
         }
 
         return view
