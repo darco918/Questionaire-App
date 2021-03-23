@@ -27,17 +27,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         database = Firebase.database.reference
-//        writeNewQuestion(InputQuestion("23","2", "A doua intrebare"))
-//        writeNewQuestion(InputQuestion("24","2", "A treia intrebare"))
-//        writeNewQuestion(MultipleChoice("20","1", "A patra intrebare", listOf("sda","fasf","fasfsa")))
-
         // read data
         readDatabase()
 
         var position = 1
-
         questions.add(InputQuestion("dasfd", "2", "Test question LoCAL"))
 
         val question: InputQuestion = questions[0] as InputQuestion
