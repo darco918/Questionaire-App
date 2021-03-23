@@ -82,7 +82,7 @@ class MultipleChoiceFragment : Fragment() {
         val chosenAnswer =
             answersContainer.findViewById(answersContainer.checkedRadioButtonId) as RadioButton
         writeAnswer(questionText.text.toString(),chosenAnswer.text.toString())
-        
+
         //remove all views
         answersContainer.removeAllViews()
         answersContainer.removeAllViewsInLayout()
