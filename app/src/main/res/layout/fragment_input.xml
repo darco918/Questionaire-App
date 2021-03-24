@@ -11,8 +11,9 @@
         android:id="@+id/tvQuestionInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20sp"
+        android:layout_marginHorizontal="@dimen/fragmentHorizontalMargin"
         android:textSize="21sp"
+        android:layout_marginTop="@dimen/questionTopMargin"
         app:layout_constraintTop_toTopOf="parent"
         android:text="This is a question that requires an input answer"/>
 
@@ -20,7 +21,7 @@
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="@dimen/fragmentHorizontalMargin"
         android:layout_marginTop="30dp"
         android:hint="Enter answer"
         android:textSize="15sp"
