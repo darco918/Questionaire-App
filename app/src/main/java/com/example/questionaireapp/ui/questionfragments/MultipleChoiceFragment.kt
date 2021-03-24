@@ -1,7 +1,6 @@
 package com.example.questionaireapp.ui.questionfragments
 
 import android.os.Bundle
-import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,16 +10,13 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.core.view.children
 import com.example.questionaireapp.R
+import com.example.questionaireapp.models.Answer
 import com.example.questionaireapp.models.MultipleChoice
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_multiple_choice.*
-import kotlinx.android.synthetic.main.fragment_multiple_choice.view.*
 import java.lang.StringBuilder
-import java.text.FieldPosition
 import java.util.*
 
 class MultipleChoiceFragment : Fragment() {
@@ -28,10 +24,6 @@ class MultipleChoiceFragment : Fragment() {
     private lateinit var answersContainer: RadioGroup
     private lateinit var questionText: TextView
     private lateinit var database: DatabaseReference
-    private lateinit var chosenRadio: RadioButton
-    private var ids: MutableList<Int> = mutableListOf(1,2,3,4,5,6,7,8,9,10)
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,24 +35,20 @@ class MultipleChoiceFragment : Fragment() {
         val myBundle: MultipleChoice? = args?.getParcelable("questionBundle")
 
         val view = inflater.inflate(R.layout.fragment_multiple_choice, container, false)
-        answersContainer = view.findViewById<RadioGroup>(R.id.rgAnswers)
+        answersContainer = view.findViewById(R.id.rgAnswers)
         questionText = view.findViewById(R.id.tvQuestion)
 
         //set answers
         if (myBundle != null) {
             questionText.text = myBundle.question
-            val position = 0
             for (el in myBundle.choicesArray) {
-                createAnswer(el, answersContainer,position)
+               createAnswer(el, answersContainer)
             }
         }
-
-
-
         return view
     }
 
-    private fun createAnswer(answer: String, parent: RadioGroup, position: Int) {
+    private fun createAnswer(answer: String, parent: RadioGroup ) {
         //add the new buttons with their text to the radio group
         val radioButton = RadioButton(activity)
         radioButton.layoutParams = LinearLayout.LayoutParams(
@@ -68,9 +56,6 @@ class MultipleChoiceFragment : Fragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         radioButton.text = answer
-
-        //this will help when determining what is the button represented by the id on onDestroy
-        radioButton.id = ids[position]
         parent.addView(radioButton)
     }
 
@@ -79,10 +64,12 @@ class MultipleChoiceFragment : Fragment() {
         val chosenId = answersContainer.checkedRadioButtonId
 
         Log.d("We try to push the answer with the ID",chosenId.toString() )
-        val chosenAnswer =
-            answersContainer.findViewById(answersContainer.checkedRadioButtonId) as RadioButton
-        writeAnswer(questionText.text.toString(),chosenAnswer.text.toString())
-
+        for( i in 0..answersContainer.childCount){
+            val view = answersContainer.getChildAt(i)
+            if( view is RadioButton){
+                if(view.isChecked)   writeAnswer(questionText.text.toString(), view.text.toString())
+            }
+        }
         //remove all views
         answersContainer.removeAllViews()
         answersContainer.removeAllViewsInLayout()
@@ -108,8 +95,5 @@ class MultipleChoiceFragment : Fragment() {
         }
         return sb.toString()
     }
-
-
-
 }
-data class Answer(val questionText: String, val answerText: String)
+//this is to push an object once, instead of individual strings
