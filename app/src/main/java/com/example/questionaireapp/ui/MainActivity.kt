@@ -16,25 +16,22 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.StringBuilder
 import java.util.*
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private var questions: MutableList<Any?> = mutableListOf()
-// ...
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        database = Firebase.database.reference
+        database  = Firebase.database.reference
         // read data
         readDatabase()
 
         var position = 1
-        questions.add(InputQuestion("dasfd", "2", "Test question LoCAL"))
+        questions.add(InputQuestion("Name", "2", "Enter your name"))
 
-        val question: InputQuestion = questions[0] as InputQuestion
+        val question: InputQuestion = questions[position - 1] as InputQuestion
         //Add the object to the fragment
         val currentQuestion = Bundle()
         currentQuestion.putParcelable("questionBundle", question)
@@ -54,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                     if (questions[position] is InputQuestion) {
                         setQuestionType2(questions[position] as InputQuestion)
                         position += 1
-
                     }
                 }
             } else {
@@ -76,13 +72,12 @@ class MainActivity : AppCompatActivity() {
                 if (type == "2")
 
                     questions.add(InputQuestion(id, type, questionText))
-
                 else {
 
                     val filtered = "[]"
                     var listChoices = el.child("choicesArray").value.toString()
                     listChoices = listChoices.filterNot { filtered.indexOf(it) > -1 }
-                    listChoices = listChoices.replace("[","")
+                    listChoices = listChoices.replace("[", "")
                     val choices = listChoices.split(",")
                     questions.add(MultipleChoice(id, type, questionText, choices))
 
@@ -124,7 +119,6 @@ class MainActivity : AppCompatActivity() {
         fragment.arguments = currentQuestion
 
         supportFragmentManager.beginTransaction().replace(R.id.rootLayout, fragment).commit()
-
     }
 
     private fun setQuestionType2(question: InputQuestion) {

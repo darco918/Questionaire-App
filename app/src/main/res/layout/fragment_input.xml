@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackgroundFragments"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.questionfragments.InputFragment">
 
@@ -11,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20sp"
-        android:layout_marginTop="100dp"
         android:textSize="21sp"
         app:layout_constraintTop_toTopOf="parent"
         android:text="This is a question that requires an input answer"/>
