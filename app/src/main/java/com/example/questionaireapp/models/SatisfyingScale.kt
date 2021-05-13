@@ -4,9 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class TrueFalseModel(
+data class SatisfyingScale(
     val questionId: String?,
-    val questionType: String? = "3",
+    val questionType: String? = "4",
     val question: String?
-) :
-    Parcelable 
+) : Parcelable

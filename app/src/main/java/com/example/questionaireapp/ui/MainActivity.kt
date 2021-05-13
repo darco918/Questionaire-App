@@ -7,9 +7,11 @@ import android.util.Log
 import com.example.questionaireapp.R
 import com.example.questionaireapp.models.InputQuestion
 import com.example.questionaireapp.models.MultipleChoice
+import com.example.questionaireapp.models.SatisfyingScale
 import com.example.questionaireapp.models.TrueFalseModel
 import com.example.questionaireapp.ui.questionfragments.InputFragment
 import com.example.questionaireapp.ui.questionfragments.MultipleChoiceFragment
+import com.example.questionaireapp.ui.questionfragments.SatisfyingFragment
 import com.example.questionaireapp.ui.questionfragments.TrueFalseFragment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         //when you click on next, the fragment will be replaces with a new one
         nextButton.setOnClickListener {
-            if (position < questions.size) {
+            if (position < questions.size-1) {
                 if (questions[position] is MultipleChoice) {
                     setQuestionType1(questions[position] as MultipleChoice)
                     position += 1
@@ -57,6 +59,12 @@ class MainActivity : AppCompatActivity() {
                     if (questions[position] is TrueFalseModel){
                         setQuestionType3(questions[position] as TrueFalseModel)
                         position += 1
+                    }
+                    else{
+                        if(questions[position] is SatisfyingScale){
+                            setQuestionType4(questions[position] as SatisfyingScale)
+                            position += 1
+                        }
                     }
                 }
             }
@@ -75,9 +83,9 @@ class MainActivity : AppCompatActivity() {
                 val questionText = el.child("question").value.toString()
                 val type = el.child("questionType").value.toString()
                 Log.d("Type ", type)
-                if(type == "3"){
-                    questions.add(TrueFalseModel(id,type, questionText))
-                }
+                if(type == "4")  questions.add(SatisfyingScale(id,type, questionText))
+                else{
+                if(type == "3") questions.add(TrueFalseModel(id,type, questionText))
                 else {
                     if (type == "2")
                         questions.add(InputQuestion(id, type, questionText))
@@ -89,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                         val choices = listChoices.split(",")
                         questions.add(MultipleChoice(id, type, questionText, choices))
                     }
+                }
                 }
             }
         }.addOnFailureListener {
@@ -145,7 +154,13 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.rootLayout, fragment).commit()
     }
 
-
+    private fun setQuestionType4(question: SatisfyingScale) {
+        val fragment = SatisfyingFragment()
+        val currentQuestion = Bundle()
+        currentQuestion.putParcelable("questionBundle", question)
+        fragment.arguments = currentQuestion
+        supportFragmentManager.beginTransaction().replace(R.id.rootLayout, fragment).commit()
+    }
 
     private fun finishedQuestions() {
         val intent = Intent(this, EndActivity::class.java)
