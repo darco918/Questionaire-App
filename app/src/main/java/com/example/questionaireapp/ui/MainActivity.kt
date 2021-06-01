@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         var position = 1
         questions.add(InputQuestion("Name", "2", "Enter your name"))
+      //  questions.add(InputQuestion("Phone", "2", "Enter your phone"))
 
         val question: InputQuestion = questions[position - 1] as InputQuestion
         //Add the object to the fragment
